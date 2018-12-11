@@ -8,7 +8,7 @@ import org.junit.Test;
 public class CellTest {
 
 	Cell deadCell = new Cell();
-	Cell liveCell = new Cell(true);
+	Cell liveCell = new Cell(ALIVE);
 	
 	@Test
 	public void dead_by_default() {

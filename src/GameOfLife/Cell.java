@@ -15,8 +15,9 @@ public class Cell {
 	private State state;
 	private State nextState;
 	
-	public Cell(boolean isAlive) {
-		this.state = isAlive ? State.ALIVE : State.DEAD;
+	public Cell(State state) {
+		this.state = state;
+		nextState = State.DEAD;
 	}
 
 	public Cell() {
@@ -29,13 +30,13 @@ public class Cell {
 	}
 
 	public Cell nextGen(int numNeighbors) {
-		Boolean willBeAlive = false;
+		State nextState = State.DEAD;
 		if (is(State.ALIVE) && numNeighbors > lonelyLevel && numNeighbors < crowdedLevel) {
-			willBeAlive = true;
+			nextState = State.ALIVE;
 		} else if (is(State.DEAD) && numNeighbors == birthLevel) {
-			willBeAlive = true;
+			nextState = State.ALIVE;
 		}
-		return new Cell(willBeAlive);
+		return new Cell(nextState);
 	}
 
 	public Boolean is(State state) {
