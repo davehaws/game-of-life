@@ -27,12 +27,72 @@ public class EvolutionRulesTest {
 	}
 
 	@Test
-	public void it_knows_a_live_cell_with_neighbors_will_live() {
+	public void it_knows_a_live_cell_with_more_than_one_neighbor_will_live() {
 		neighbors.add(liveCell);
+		assertThat(rules.getNextCellState(liveCell, neighbors), is(DEAD));
 		neighbors.add(liveCell);
 		assertThat(rules.getNextCellState(liveCell, neighbors), is(ALIVE));
 		neighbors.add(liveCell);
 		assertThat(rules.getNextCellState(liveCell, neighbors), is(ALIVE));
 	}
+	
+	@Test
+	public void it_knows_a_live_cell_will_die_from_overpopulation() {
+		neighbors.add(liveCell);
+		neighbors.add(liveCell);
+		neighbors.add(liveCell);
+		neighbors.add(liveCell);
+		assertThat(rules.getNextCellState(liveCell, neighbors), is(DEAD));
+		neighbors.add(liveCell);
+		assertThat(rules.getNextCellState(liveCell, neighbors), is(DEAD));
+		neighbors.add(liveCell);
+		assertThat(rules.getNextCellState(liveCell, neighbors), is(DEAD));
+	}
+	
+//	@Test
+//	public void it_knows_a_live_cell_call_die_of_loneliness() {
+//		// No neighbors
+//		assertThat(rules.getNextCellState(liveCell, neighbors), is(DEAD));
+//		
+//		// All neighbors dead
+//		neighbors.add(deadCell);
+//		neighbors.add(deadCell);
+//		assertThat(rules.getNextCellState(liveCell, neighbors), is(DEAD));
+//		
+//		// 1 or 
+//		neighbors.add(liveCell);
+//		assertThat(rules.getNextCellState(deadCell, neighbors), is(DEAD));
+//	}
+//
+//	@Test
+//	public void it_knows_a_live_cell_call_die_of_loneliness() {
+//		// No neighbors
+//		assertThat(rules.getNextCellState(liveCell, neighbors), is(DEAD));
+//		
+//		// All neighbors dead
+//		neighbors.add(deadCell);
+//		neighbors.add(deadCell);
+//		assertThat(rules.getNextCellState(liveCell, neighbors), is(DEAD));
+//		
+//		// 1 or 
+//		neighbors.add(liveCell);
+//		assertThat(rules.getNextCellState(deadCell, neighbors), is(DEAD));
+//	}
+//
+//	@Test
+//	public void it_knows_when_a_dead_has_no_live_neighbors_it_will_stay_dead() {
+//		assertThat(rules.getNextCellState(deadCell, neighbors), is(DEAD));
+//		neighbors.add(deadCell);
+//		neighbors.add(deadCell);
+//		assertThat(rules.getNextCellState(deadCell, neighbors), is(DEAD));
+//		neighbors.add(liveCell);
+//		assertThat(rules.getNextCellState(deadCell, neighbors), is(DEAD));
+//		neighbors.add(liveCell);
+//		assertThat(rules.getNextCellState(deadCell, neighbors), is(ALIVE));
+//		neighbors.add(liveCell);
+//		assertThat(rules.getNextCellState(deadCell, neighbors), is(ALIVE));
+//		neighbors.add(liveCell);
+//		assertThat(rules.getNextCellState(deadCell, neighbors), is(DEAD));
+//	}
 
 }

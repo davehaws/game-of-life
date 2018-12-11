@@ -17,7 +17,7 @@ public class EvolutionRules {
 			}
 		}
 		
-		if (count > 1) {
+		if (count > 1 && count < 4) {
 			result = ALIVE;
 		}
 		return result;
