@@ -72,9 +72,9 @@ public class CellTest {
 	public void can_set_next_generation_on_cell() {
 		Cell cell = new Cell();
 		assertThat(cell.is(DEAD), is(true));
-		cell.setNextTickState(ALIVE);
+		cell.setNextState(ALIVE);
 		assertThat(cell.is(DEAD), is(true));
-		cell.tick();
+		cell.evolve();
 		assertThat(cell.is(ALIVE), is(true));
 	}
 	

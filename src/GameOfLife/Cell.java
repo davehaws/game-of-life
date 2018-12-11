@@ -13,7 +13,7 @@ public class Cell {
 	}
 	
 	private State state;
-	private State nextTickState;
+	private State nextState;
 	
 	public Cell(boolean isAlive) {
 		this.state = isAlive ? State.ALIVE : State.DEAD;
@@ -21,7 +21,7 @@ public class Cell {
 
 	public Cell() {
 		state = State.DEAD;
-		nextTickState = State.DEAD;
+		nextState = State.DEAD;
 	}
 
 	public Boolean isAlive() {
@@ -39,7 +39,6 @@ public class Cell {
 	}
 
 	public Boolean is(State state) {
-		// TODO Auto-generated method stub
 		return this.state.equals(state);
 	}
 
@@ -48,13 +47,14 @@ public class Cell {
 		
 	}
 
-	public void setNextTickState(State state) {
-		nextTickState = state;
+	public void setNextState(State state) {
+		nextState = state;
 		
 	}
 
-	public void tick() {
-		state = nextTickState;
+	public void evolve() {
+		state = nextState;
+		nextState = State.DEAD;
 	}
 
 }
