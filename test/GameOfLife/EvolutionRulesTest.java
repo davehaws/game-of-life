@@ -16,17 +16,23 @@ public class EvolutionRulesTest {
 
 	@Test
 	public void it_knows_a_live_cell_with_no_neighbors_will_die() {
-		// No neighbors
 		assertThat(rules.getNextCellState(liveCell, neighbors), is(DEAD));
 	}
 
 	@Test
 	public void it_knows_a_live_cell_with_all_dead_neighbors_will_die() {
-		// All neighbors dead
 		neighbors.add(deadCell);
 		neighbors.add(deadCell);
 		assertThat(rules.getNextCellState(liveCell, neighbors), is(DEAD));
 	}
 
+	@Test
+	public void it_knows_a_live_cell_with_neighbors_will_live() {
+		neighbors.add(liveCell);
+		neighbors.add(liveCell);
+		assertThat(rules.getNextCellState(liveCell, neighbors), is(ALIVE));
+		neighbors.add(liveCell);
+		assertThat(rules.getNextCellState(liveCell, neighbors), is(ALIVE));
+	}
 
 }
