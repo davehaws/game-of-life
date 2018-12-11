@@ -50,7 +50,7 @@ public class EvolutionRulesTest {
 	}
 	
 	@Test
-	public void it_knows_a_dead_cell__will_stay_dead() {
+	public void it_knows_a_dead_cell_will_stay_dead() {
 		assertThat(rules.getNextCellState(deadCell, neighbors), is(DEAD));
 		neighbors.add(deadCell);
 		neighbors.add(deadCell);
@@ -60,6 +60,17 @@ public class EvolutionRulesTest {
 		assertThat(rules.getNextCellState(deadCell, neighbors), is(DEAD));
 		neighbors.add(liveCell);
 		assertThat(rules.getNextCellState(deadCell, neighbors), is(DEAD));
+		neighbors.add(liveCell);
+		neighbors.add(liveCell);
+		assertThat(rules.getNextCellState(deadCell, neighbors), is(DEAD));
+	}
+	
+	@Test
+	public void it_knows_a_dead_cell_will_evolve_to_a_live_cell_with_the_right_number_of_neighbors() {
+		neighbors.add(liveCell);
+		neighbors.add(liveCell);
+		neighbors.add(liveCell);
+		assertThat(rules.getNextCellState(deadCell, neighbors), is(ALIVE));
 	}
 	
 }

@@ -17,8 +17,14 @@ public class EvolutionRules {
 			}
 		}
 		
-		if (cell.is(ALIVE) && count > 1 && count < 4) {
-			result = ALIVE;
+		if (cell.is(ALIVE)) {
+			if (count > 1 && count < 4) {
+				result = ALIVE;
+			}
+		} else {
+			if (count == 3) {
+				result = ALIVE;
+			}
 		}
 		return result;
 	}
