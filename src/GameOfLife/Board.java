@@ -3,6 +3,8 @@ package GameOfLife;
 
 import static GameOfLife.Cell.State.*;
 import static GameOfLife.Location.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
@@ -62,6 +64,38 @@ public class Board {
 		for (Location location : locations) {
 			getCell(location).setState(ALIVE);
 		}
+	}
+
+	public int getLiveNeighborCount(Location location) {
+		List<Cell> neighbors = getNeighbors(location);
+		
+		return getLiveCellCount(neighbors);
+	}
+
+	private int getLiveCellCount(List<Cell> cells) {
+		int result = 0;
+		for (Cell cell : cells) {
+			if (cell.is(ALIVE)) {
+				result++;
+			}
+		}
+		return result;
+	}
+
+	private List<Cell> getNeighbors(Location location) {
+		int x = location.get(X);
+		int y = location.get(Y);
+		
+		List<Cell> neighbors = new ArrayList<Cell>();
+		neighbors.add(getCell(new Location(x-1,y-1)));
+		neighbors.add(getCell(new Location(x-1,y)));
+		neighbors.add(getCell(new Location(x-1,y+1)));
+		neighbors.add(getCell(new Location(x,y-1)));
+		neighbors.add(getCell(new Location(x,y+1)));
+		neighbors.add(getCell(new Location(x+1,y-1)));
+		neighbors.add(getCell(new Location(x+1,y)));
+		neighbors.add(getCell(new Location(x+1,y+1)));
+		return neighbors;
 	}
 
 }
