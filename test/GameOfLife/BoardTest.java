@@ -32,15 +32,15 @@ public class BoardTest {
 	
 	@Test
 	public void it_can_return_the_number_of_live_cells() {
-		int[][] liveCells = new int[][] {{0,0},{1,1},{2,2}};
+		int[][] liveCells = new int[][] {{0,0},{1,0},{1,1},{2,2}};
 		
 		Board board = createXYBoardWithInitialState(3, liveCells);
-		assertThat(board.getLiveNeighborCount(new Location(0,0)), is(1));
+		assertThat(board.getLiveNeighborCount(new Location(0,0)), is(2));
 		assertThat(board.getLiveNeighborCount(new Location(1,0)), is(2));
-		assertThat(board.getLiveNeighborCount(new Location(2,0)), is(1));
-		assertThat(board.getLiveNeighborCount(new Location(0,1)), is(2));
-		assertThat(board.getLiveNeighborCount(new Location(1,1)), is(2));
-		assertThat(board.getLiveNeighborCount(new Location(2,1)), is(2));
+		assertThat(board.getLiveNeighborCount(new Location(2,0)), is(2));
+		assertThat(board.getLiveNeighborCount(new Location(0,1)), is(3));
+		assertThat(board.getLiveNeighborCount(new Location(1,1)), is(3));
+		assertThat(board.getLiveNeighborCount(new Location(2,1)), is(3));
 		assertThat(board.getLiveNeighborCount(new Location(0,2)), is(1));
 		assertThat(board.getLiveNeighborCount(new Location(1,2)), is(2));
 		assertThat(board.getLiveNeighborCount(new Location(2,2)), is(1));
