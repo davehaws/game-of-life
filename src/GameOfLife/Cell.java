@@ -13,12 +13,15 @@ public class Cell {
 	}
 	
 	private State state;
+	private State nextTickState;
+	
 	public Cell(boolean isAlive) {
 		this.state = isAlive ? State.ALIVE : State.DEAD;
 	}
 
 	public Cell() {
 		state = State.DEAD;
+		nextTickState = State.DEAD;
 	}
 
 	public Boolean isAlive() {
@@ -43,6 +46,15 @@ public class Cell {
 	public void setState(State state) {
 		this.state = state;
 		
+	}
+
+	public void setNextTickState(State state) {
+		nextTickState = state;
+		
+	}
+
+	public void tick() {
+		state = nextTickState;
 	}
 
 }

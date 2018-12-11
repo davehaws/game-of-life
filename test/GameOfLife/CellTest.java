@@ -68,4 +68,14 @@ public class CellTest {
 		assertThat(cell.is(ALIVE), is(true));
 	}
 	
+	@Test
+	public void can_set_next_generation_on_cell() {
+		Cell cell = new Cell();
+		assertThat(cell.is(DEAD), is(true));
+		cell.setNextTickState(ALIVE);
+		assertThat(cell.is(DEAD), is(true));
+		cell.tick();
+		assertThat(cell.is(ALIVE), is(true));
+	}
+	
 }
