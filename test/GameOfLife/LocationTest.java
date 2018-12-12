@@ -15,6 +15,15 @@ public class LocationTest {
 	}
 	
 	@Test
+	public void can_change_location_cooridnates_two_dimensions() {
+		Location location = new Location(2,3);
+		location.set(X, 4);
+		location.set(Y, 6);
+		assertThat(location.get(X), is(4));
+		assertThat(location.get(Y), is(6));
+	}
+	
+	@Test
 	public void can_output_a_human_readable_state_for_the_location() {
 		Location location = new Location(2, 7);
 		assertThat(location.toString(), is("(X:2,Y:7)"));

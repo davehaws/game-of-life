@@ -12,6 +12,8 @@ public class Board {
 	final private int size;
 	Cell[][] cells;
 
+	final static private Cell outOfRangeCell = new Cell();
+
 	public Board() {
 		this.size = 10;
 		initialize();
@@ -36,9 +38,7 @@ public class Board {
 		}
 	}
 
-	private Boolean indexIsOutOfRange(Location loc) {
-		int x = loc.get(X);
-		int y = loc.get(Y);
+	private Boolean indexIsOutOfRange(int x, int y) {
 		if (x < 0 || y < 0) {
 			return true;
 		}
@@ -48,16 +48,19 @@ public class Board {
 		return false;
 	}
 	
-	final static private Cell outOfRangeCell = new Cell();
 	public Cell getCell(Location location) {
-		if (indexIsOutOfRange(location)) {
+		return getCellXY(location.get(X), location.get(Y));
+	}
+	
+	private Cell getCellXY(int x, int y) {
+		if (indexIsOutOfRange(x, y)) {
 			return outOfRangeCell;
 		}
-		return getInRangeCell(location);
+		return getInRangeCell(x, y);
 	}
 
-	private Cell getInRangeCell(Location location) {
-		return cells[location.get(X)][location.get(Y)];
+	private Cell getInRangeCell(int x, int y) {
+		return cells[x][y];
 	}
 
 	public void setInitialState(List<Location> locations) {
@@ -87,14 +90,14 @@ public class Board {
 		int y = location.get(Y);
 		
 		List<Cell> neighbors = new ArrayList<Cell>();
-		neighbors.add(getCell(new Location(x-1,y-1)));
-		neighbors.add(getCell(new Location(x-1,y)));
-		neighbors.add(getCell(new Location(x-1,y+1)));
-		neighbors.add(getCell(new Location(x,y-1)));
-		neighbors.add(getCell(new Location(x,y+1)));
-		neighbors.add(getCell(new Location(x+1,y-1)));
-		neighbors.add(getCell(new Location(x+1,y)));
-		neighbors.add(getCell(new Location(x+1,y+1)));
+		for (int i = -1; i < 2; i++) {
+			for (int j = -1; j < 2; j++) {
+				if (i != 0 || j != 0) {
+					neighbors.add(getCellXY(x+i, y+j));
+				}
+			}
+		}
+
 		return neighbors;
 	}
 

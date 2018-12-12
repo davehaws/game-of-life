@@ -18,4 +18,8 @@ public class Location {
 	public int get(int coor) {
 		return coors[coor];
 	}
+
+	public void set(int coor, int value) {
+		coors[coor] = value;
+	}
 }
