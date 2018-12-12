@@ -13,6 +13,7 @@ public class Board {
 	Cell[][] cells;
 
 	final static private Cell outOfRangeCell = new Cell();
+	private EvolutionRules evolutionRules;
 
 	public Board() {
 		this.size = 10;
@@ -69,26 +70,7 @@ public class Board {
 		}
 	}
 
-	public int getLiveNeighborCount(Location location) {
-		List<Cell> neighbors = getNeighbors(location);
-		
-		return getLiveCellCount(neighbors);
-	}
-
-	private int getLiveCellCount(List<Cell> cells) {
-		int result = 0;
-		for (Cell cell : cells) {
-			if (cell.is(ALIVE)) {
-				result++;
-			}
-		}
-		return result;
-	}
-
-	private List<Cell> getNeighbors(Location location) {
-		int x = location.get(X);
-		int y = location.get(Y);
-		
+	private List<Cell> getNeighbors(int x, int y) {
 		List<Cell> neighbors = new ArrayList<Cell>();
 		for (int i = -1; i < 2; i++) {
 			for (int j = -1; j < 2; j++) {
@@ -99,6 +81,28 @@ public class Board {
 		}
 
 		return neighbors;
+	}
+
+	public void setEvolutionRules(EvolutionRules rules) {
+		this.evolutionRules = rules;
+	}
+
+	public void setNextCellStates() {
+		for (int x = 0; x < size; x++) {
+			for (int y = 0; y < size; y++) {
+				Cell cell = cells[x][y];
+				List<Cell> neighbors = getNeighbors(x, y);
+				cell.setNextState(evolutionRules.getNextCellState(cell, neighbors));
+			}
+		}
+	}
+
+	public void evolve() {
+		for (int x = 0; x < size; x++) {
+			for (int y = 0; y < size; y++) {
+				cells[x][y].evolve();;
+			}
+		}
 	}
 
 }
