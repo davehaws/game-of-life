@@ -31,21 +31,73 @@ public class BoardTest {
 	}
 	
 	@Test
-	public void it_can_evolve_to_next_state() {
-		int[][] initialLiveCells = new int[][] {{0,0},{1,0},{1,1},{2,2}};
+	public void game_with_a_single_live_cell_will_die() {
+		int[][] initialLiveCells = new int[][] {{1,1}};
+		int[][] evolvedLiveCells = new int[][] {};
 		
-		Board board = createXYBoardWithInitialState(3, initialLiveCells);
-		board.setEvolutionRules(new EvolutionRules());
-		board.setNextCellStates();
-		board.evolve();
-		
-		int[][] evolvedLiveCells = new int[][] {{0,0},{1,0},{0,1},{1,1},{2,1}};
-		int[][] deadCoors = new int[][] {{2,0},{0,2},{1,2},{2,2}};
-		
-		assertBoardState(board, 3, evolvedLiveCells, deadCoors);
-		
+		assertBoardEvolution(3, initialLiveCells, evolvedLiveCells);
 	}
-	
+
+	@Test
+	public void game_with_a_live_cell_with_one_neighbor_will_die() {
+		int[][] initialLiveCells = new int[][] {{1,1},{1,2}};
+		int[][] evolvedLiveCells = new int[][] {};
+		
+		assertBoardEvolution(3, initialLiveCells, evolvedLiveCells);
+	}
+
+	@Test
+	public void game_with_a_live_cell_with_two_neighbors_will_live() {
+		int[][] initialLiveCells = new int[][] {{0,0}, {1,1}, {2,2}};
+		int[][] evolvedLiveCells = new int[][] {{1,1}};
+		
+		assertBoardEvolution(3, initialLiveCells, evolvedLiveCells);
+	}
+
+	@Test
+	public void game_with_a_live_cell_with_three_neighbors_will_live() {
+		int[][] initialLiveCells = new int[][] {{0,0}, {2,0}, {2,2}, {1,1}};
+		int[][] evolvedLiveCells = new int[][] {{1,1}, {1,0}, {2,1}};
+		
+		assertBoardEvolution(3, initialLiveCells, evolvedLiveCells);
+	}
+
+	@Test
+	public void game_with_a_live_cell_with_four_neighbors_will_die() {
+		int[][] initialLiveCells = new int[][] {{0,0}, {2,0}, {2,2}, {0,2}, {1,1}};
+		int[][] evolvedLiveCells = new int[][] {{1,0}, {2,1}, {1,2}, {0,1}};
+		
+		assertBoardEvolution(3, initialLiveCells, evolvedLiveCells);
+	}
+
+	@Test
+	public void game_with_a_dead_cell_with_three_neighbors_will_live() {
+		int[][] initialLiveCells = new int[][] {{0,0}, {2,0}, {2,2}};
+		int[][] evolvedLiveCells = new int[][] {{1,1}};
+		
+		assertBoardEvolution(3, initialLiveCells, evolvedLiveCells);
+	}
+
+	@Test
+	public void game_with_a_line_of_three_cells_will_occilate() {
+		int[][] firstLiveCoors = new int[][] {{0,1}, {1,1}, {2,1}};
+		int[][] firstDeadCoors = new int[][] {{0,0},{1,0},{2,0},{0,2},{1,2},{2,2}};
+		int[][] secondLiveCoors = new int[][] {{1,0}, {1,1}, {1,2}};
+		int[][] secondDeadCoors = new int[][] {{0,0},{2,0},{0,1},{2,1},{0,2},{2,2}};
+		
+		Board board = createXYBoardWithInitialState(3, secondLiveCoors);
+		board.setEvolutionRules(new EvolutionRules());
+
+		for (int i = 0; i < 3; i++) {
+			board.setNextCellStates();
+			board.evolve();
+			assertBoardState(board, 3, firstLiveCoors, firstDeadCoors);
+			board.setNextCellStates();
+			board.evolve();
+			assertBoardState(board, 3, secondLiveCoors, secondDeadCoors);
+		}
+	}
+
 	/* 
 	 * HELPER SETUP FUNCTIONS
 	 */
@@ -67,6 +119,37 @@ public class BoardTest {
 		assertThat(board.getDimension(), is(size));
 		assertStateOfSpecifiedCells(board, liveCells, ALIVE);
 		assertStateOfSpecifiedCells(board, deadCoors, DEAD);
+	}
+
+	private void assertBoardEvolution(int boardSize, int[][] initialLiveCoors, int[][] evolvedLiveCoors) {
+		int[][] evolvedDeadCoors = getDeadCoorsFromLiveCoors(3, evolvedLiveCoors);
+		
+		Board board = createXYBoardWithInitialState(boardSize, initialLiveCoors);
+		board.setEvolutionRules(new EvolutionRules());
+		board.setNextCellStates();
+		board.evolve();
+		
+		assertBoardState(board, 3, evolvedLiveCoors, evolvedDeadCoors);
+	}
+
+	private int[][] getDeadCoorsFromLiveCoors(int boardSize, int[][] evolvedLiveCoors) {
+		List<int[]> deadCoors = new ArrayList<int[]>();
+
+		for (int i = 0; i < boardSize; i++) {
+			for (int j = 0; j < boardSize; j++) {
+				boolean found = false;
+				for (int[] liveCoor : evolvedLiveCoors) {
+					if (liveCoor[0] == i && liveCoor[1] == j) {
+						found = true;
+						break;
+					}
+				}
+				if (!found) {
+					deadCoors.add(new int[] {i,j});
+				}
+			}
+		}
+		return deadCoors.toArray(new int[deadCoors.size()][]);
 	}
 
 	private void assertStateOfSpecifiedCells(Board board, int[][] liveCells, State state) {

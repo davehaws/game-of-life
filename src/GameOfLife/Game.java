@@ -24,15 +24,6 @@ public class Game {
 		return board.getCell(new Location(x,y)).is(ALIVE);
 	}
 
-	public void setInitialBoard(int[][] coordinates) {
-		board = new Board(dimension);
-		for (int[] pair : coordinates) {
-			Location loc = new Location(pair[0], pair[1]);
-			board.getCell(loc).setState(ALIVE);
-		}
-		
-	}
-
 	public void tick() {
 		Board newBoard = new Board(dimension);
 		for (int x = 0; x < dimension; x++) {
