@@ -5,13 +5,16 @@ import static org.davehaws.gameoflife.Cell.State.*;
 import static org.davehaws.gameoflife.Location.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class Board {
 
 	final private int size;
-	Cell[][] cells;
+	Map<Integer, Map<Integer, Cell>> cells = new HashMap<Integer,  Map<Integer,  Cell>>();
+	
 
 	final static private Cell outOfRangeCell = new Cell();
 	private EvolutionRules evolutionRules;
@@ -31,38 +34,32 @@ public class Board {
 	}
 
 	private void initialize() {
-		cells = new Cell[size][];
 		for (int x = 0; x < size; x++) {
-			cells[x] = new Cell[size];
 			for (int y = 0; y < size; y++) {
-				cells[x][y] = new Cell();
+				getCellXY(x, y);
 			}
 		}
 	}
 
-	private Boolean indexIsOutOfRange(int x, int y) {
-		if (x < 0 || y < 0) {
-			return true;
-		}
-		if(x >= size || y >= size) {
-			return true;
-		}
-		return false;
-	}
-	
 	public Cell getCell(Location location) {
 		return getCellXY(location.get(X), location.get(Y));
 	}
-	
-	private Cell getCellXY(int x, int y) {
-		if (indexIsOutOfRange(x, y)) {
-			return outOfRangeCell;
-		}
-		return getInRangeCell(x, y);
-	}
 
-	private Cell getInRangeCell(int x, int y) {
-		return cells[x][y];
+	private Cell getCellXY(int x, int y) {
+		Cell result = null;
+		
+		Map<Integer, Cell> row = cells.get(x);
+		if (row == null) {
+			row = new HashMap<Integer, Cell>();
+			cells.put(x, row);
+		}
+		result = row.get(y);
+		
+		if (result == null) {
+			result = new Cell();
+			row.put(y, result);
+		}
+		return result;
 	}
 
 	public void setInitialState(List<Location> locations) {
@@ -91,7 +88,7 @@ public class Board {
 	public void setNextCellStates() {
 		for (int x = 0; x < size; x++) {
 			for (int y = 0; y < size; y++) {
-				Cell cell = cells[x][y];
+				Cell cell = getCellXY(x, y);
 				List<Cell> neighbors = getNeighbors(x, y);
 				cell.setNextState(evolutionRules.getNextCellState(cell, neighbors));
 			}
@@ -101,7 +98,7 @@ public class Board {
 	public void evolve() {
 		for (int x = 0; x < size; x++) {
 			for (int y = 0; y < size; y++) {
-				cells[x][y].evolve();;
+				getCellXY(x, y).evolve();
 			}
 		}
 	}
