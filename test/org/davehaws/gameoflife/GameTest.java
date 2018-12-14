@@ -1,7 +1,8 @@
-package GameOfLife;
+package org.davehaws.gameoflife;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
+import org.davehaws.gameoflife.Game;
 import org.junit.Test;
 
 public class GameTest {

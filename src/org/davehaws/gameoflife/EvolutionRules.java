@@ -1,9 +1,10 @@
-package GameOfLife;
+package org.davehaws.gameoflife;
 
-import static GameOfLife.Cell.State.*;
+import static org.davehaws.gameoflife.Cell.State.*;
+
 import java.util.List;
 
-import GameOfLife.Cell.State;
+import org.davehaws.gameoflife.Cell.State;
 
 public class EvolutionRules {
 

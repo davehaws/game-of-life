@@ -1,15 +1,17 @@
-package GameOfLife;
+package org.davehaws.gameoflife;
+import static org.davehaws.gameoflife.Cell.State.*;
+import static org.davehaws.gameoflife.Location.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
-import static GameOfLife.Cell.State.*;
-import static GameOfLife.Location.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.davehaws.gameoflife.Board;
+import org.davehaws.gameoflife.EvolutionRules;
+import org.davehaws.gameoflife.Location;
+import org.davehaws.gameoflife.Cell.State;
 import org.junit.Test;
-
-import GameOfLife.Cell.State;
 
 public class BoardTest {
 

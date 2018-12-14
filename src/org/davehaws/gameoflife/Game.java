@@ -1,5 +1,4 @@
-package GameOfLife;
-
+package org.davehaws.gameoflife;
 
 public class Game {
 

@@ -1,8 +1,9 @@
-package GameOfLife;
+package org.davehaws.gameoflife;
+import static org.davehaws.gameoflife.Location.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
-import static GameOfLife.Location.*;
 
+import org.davehaws.gameoflife.Location;
 import org.junit.Test;
 
 public class LocationTest {

@@ -1,11 +1,14 @@
-package GameOfLife;
+package org.davehaws.gameoflife;
 
 import static org.junit.Assert.*;
+import static org.davehaws.gameoflife.Cell.State.*;
 import static org.hamcrest.CoreMatchers.*;
-import static GameOfLife.Cell.State.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.davehaws.gameoflife.Cell;
+import org.davehaws.gameoflife.EvolutionRules;
 import org.junit.Test;
 
 public class EvolutionRulesTest {

@@ -1,11 +1,12 @@
-package GameOfLife;
+package org.davehaws.gameoflife;
 
 
-import static GameOfLife.Cell.State.*;
-import static GameOfLife.Location.*;
+import static org.davehaws.gameoflife.Cell.State.*;
+import static org.davehaws.gameoflife.Location.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class Board {
 
