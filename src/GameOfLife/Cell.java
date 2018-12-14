@@ -29,16 +29,6 @@ public class Cell {
 		return state == State.ALIVE;
 	}
 
-	public Cell nextGen(int numNeighbors) {
-		State nextState = State.DEAD;
-		if (is(State.ALIVE) && numNeighbors > lonelyLevel && numNeighbors < crowdedLevel) {
-			nextState = State.ALIVE;
-		} else if (is(State.DEAD) && numNeighbors == birthLevel) {
-			nextState = State.ALIVE;
-		}
-		return new Cell(nextState);
-	}
-
 	public Boolean is(State state) {
 		return this.state.equals(state);
 	}
